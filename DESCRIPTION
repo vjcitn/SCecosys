@@ -1,0 +1,22 @@
+Package: SCecosys
+Date: 2022-10-01
+Title: Material for a talk on software/data ecosystems for single cell genomics
+Version: 0.0.0
+Authors@R: 
+    c(person(
+        "Vincent", "Carey", role = c("aut", "cre"),
+        email = "stvjc@channing.harvard.edu",
+        comment = c(ORCID = "0000-0003-4046-0063")
+     )
+    )
+Description: Material for a talk on software/data ecosystems for single cell genomics.
+License: Artistic-2.0
+Encoding: UTF-8
+Depends: R (>= 4.2), dplyr
+Suggests: knitr, testthat
+Imports: htmltools, DT
+VignetteBuilder: knitr
+biocViews: Infrastructure
+RoxygenNote: 7.2.3
+URL: https://github.com/vjcitn/SCecosys
+BugReports: https://github.com/vjcitn/SCecosys/issues

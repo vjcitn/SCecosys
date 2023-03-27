@@ -1,0 +1,23 @@
+---
+title: "C: Teaching and learning single cell genomics"
+author: "Vincent J. Carey, stvjc at channing.harvard.edu"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{C: Teaching and learning single cell genomics}
+  %\VignetteEncoding{UTF-8}
+output:
+  BiocStyle::html_document:
+    highlight: pygments
+    number_sections: yes
+    theme: united
+    toc: yes
+---
+
+# The "Orchestra" platform for containerized workshops
+
+<a href="http://app.orchestra.cancerdatasci.org/1">Infrastructure by Sean Davis of U Colorado Anschutz</a>
+
+# The Bicycle principles
+
+Videos and preprints for <a href="https://www.bikeprinciples.org/">inclusive short-format training</a>

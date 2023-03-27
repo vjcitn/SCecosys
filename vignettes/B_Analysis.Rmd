@@ -1,0 +1,40 @@
+---
+title: "B: Analysis -- OSCA resources, etc."
+author: "Vincent J. Carey, stvjc at channing.harvard.edu"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{B: Analysis -- OSCA resources}
+  %\VignetteEncoding{UTF-8}
+output:
+  BiocStyle::html_document:
+    highlight: pygments
+    number_sections: yes
+    theme: united
+    toc: yes
+---
+
+# Example
+
+<a href="http://bioconductor.org/books/3.16/OSCA.advanced/trajectory-analysis.html">Trajectory chapter</a>
+
+# The OSCA book is built from R markdown files in packages
+
+In principle, you can reproduce any computations in the book,
+and have instances of all created objects in your workspace via
+```{r lkbk, message=FALSE,eval=FALSE}
+dir(system.file("book", package="OSCA.advanced"))
+pa = dir(system.file("book", package="OSCA.advanced"), full=TRUE)
+trajpa = grep("traject", pa, value=TRUE)
+library(knitr)
+purl(trajpa)
+source("trajectory.R", echo=TRUE)
+```
+
+# QC
+
+Full testing on devel branch <a href="https://www.bioconductor.org/checkResults/3.17/books-LATEST/">book image</a>
+
+# Reaching across: scvi-tools
+
+My efforts at bridging to products of the VI team (Yosef lab) in <a href="https://vjcitn.github.io/scviR">scviR</a>

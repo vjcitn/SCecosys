@@ -1,0 +1,101 @@
+---
+title: "A: Data resources and values for single cell genomics"
+author: "Vincent J. Carey, stvjc at channing.harvard.edu"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{A: Data resources and values for single cell genomics}
+  %\VignetteEncoding{UTF-8}
+output:
+  BiocStyle::html_document:
+    highlight: pygments
+    number_sections: yes
+    theme: united
+    toc: yes
+---
+
+# The SingleCellExperiment class
+
+![sce](sceSchema.jpg)
+
+# Bioconductor's scRNAseq resource
+
+The scRNAseq package includes functions that will retrieve
+exemplary datasets, place them in a user-defined cache (so that
+retrievals need not be repeated), and deliver a representation
+into the workspace.
+
+```{r setup,message=FALSE}
+library(SCecosys)
+library(scRNAseq)
+library(DT)
+library(CuratedAtlasQueryR)
+library(dplyr)
+```
+
+## Enumerating the functions and their sources in pubmed
+
+```{r lk1}
+data(curated_scrnaseq_table)
+datatable(curated_scrnaseq_table, escape=FALSE)
+```
+
+## Searchable abstracts (specially curated)
+
+```{r lk12}
+data(curated_abstdf)
+curated_abstdf$pmids = build_anchors(curated_abstdf$pmids)
+datatable(curated_abstdf, escape=FALSE)
+```
+
+## Using it
+
+```{r getdata, message=FALSE}
+library(scRNAseq)
+zld = ZilionisLungData()
+zld
+plot(reducedDim(zld), pch=".", col=factor(zld$`Major cell type`))
+```
+
+The projection is based on
+Klein's [SPRING](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6030950/).
+
+Exercises: Supply a legend.  Use more modern visualization.  Investigate second-level cell type assignments.
+
+# The Human Cell Atlas
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">🧬💻🔥 We are excited to launch <a href="https://twitter.com/hashtag/CuratedAtlasQueryR?src=hash&amp;ref_src=twsrc%5Etfw">#CuratedAtlasQueryR</a>! millions of cells at your fingertips. A thread 🧵. <br><br>The harmonized and reannotated <a href="https://twitter.com/hashtag/CELLxGENE?src=hash&amp;ref_src=twsrc%5Etfw">#CELLxGENE</a> <a href="https://twitter.com/hashtag/singlecell?src=hash&amp;ref_src=twsrc%5Etfw">#singlecell</a> human <a href="https://twitter.com/hashtag/atlas?src=hash&amp;ref_src=twsrc%5Etfw">#atlas</a> can be <br>explored and retrieved as <a href="https://twitter.com/hashtag/SingleCellExperiment?src=hash&amp;ref_src=twsrc%5Etfw">#SingleCellExperiment</a>. Please RT!<br><br>-&gt; <a href="https://t.co/8rwqBqPHMQ">https://t.co/8rwqBqPHMQ</a> <a href="https://t.co/2HvHsvmi4H">pic.twitter.com/2HvHsvmi4H</a></p>&mdash; Stefano Mangiola (@steman_research) <a href="https://twitter.com/steman_research/status/1628518254993096705?ref_src=twsrc%5Etfw">February 22, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+```{r dostef, message=FALSE,eval=TRUE}
+library(CuratedAtlasQueryR)
+library(S4Vectors)
+```
+```{r doqi}
+metadata  = get_metadata()
+metadata
+metadata |> dplyr::count()
+```
+Filtering cells by donor, assay, tissue, cell annotation:
+```{r getct, eval=TRUE}
+single_cell_countsALC = 
+    metadata |>
+    dplyr::filter(
+        ethnicity == "African" &
+        stringr::str_like(assay, "%10x%") &
+        tissue == "lung parenchyma" &
+        stringr::str_like(cell_type, "%CD4%")
+    ) |>
+    get_SingleCellExperiment()
+single_cell_countsALC
+head(colData(single_cell_countsALC)[,1:5])
+```
+
+# Reaching across: data available in scvi-tools or scanpy
+
+Use scviHelper() or scanpyHelper() apps in scviR.
+
+```{r lklkspp,eval=FALSE}
+library(scviR)
+scviHelper()
+```
+
